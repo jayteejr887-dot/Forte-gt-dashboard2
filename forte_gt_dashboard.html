@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#08090b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FORTE GT">
+<title>FORTE GT Dashboard</title>
+<style>
+:root{--bg:#08090b;--panel:#15171b;--panel2:#0e1013;--red:#ff343b;--red2:#a80e19;--muted:#a0a5ae;--line:#292c32;--white:#f6f7f9}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif;overflow:hidden}
+body{padding:env(safe-area-inset-top)  env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.app{height:100dvh;display:flex;flex-direction:column;gap:clamp(9px,1.5vh,16px);padding:clamp(14px,2.5vw,30px);max-width:1500px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:58px}
+.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border:1px solid var(--red);border-radius:13px;display:grid;place-items:center;color:var(--red);font-weight:900;font-size:19px;box-shadow:0 0 22px #ff343b20}
+h1{font-size:clamp(18px,2.4vw,27px);letter-spacing:.15em;margin:0;font-weight:850}.sub{font-size:10px;letter-spacing:.22em;color:var(--red);margin-top:5px}
+.clock{text-align:right}.time{font-size:clamp(27px,4vw,46px);font-weight:300;letter-spacing:.035em;font-variant-numeric:tabular-nums}.date{font-size:10px;letter-spacing:.16em;color:var(--muted);margin-top:2px}
+.rule{height:1px;background:linear-gradient(90deg,var(--red),var(--line) 38%,var(--line))}
+main{flex:1;min-height:0;display:grid;grid-template-columns:1.1fr .9fr;grid-template-rows:minmax(0,1fr) auto;gap:clamp(9px,1.5vw,16px)}
+.card{background:linear-gradient(145deg,#191b20,#111216);border:1px solid var(--line);border-radius:20px;padding:clamp(13px,2vw,22px);min-height:0;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.cardhead{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.18em;color:#e5e7eb;font-weight:750;margin-bottom:13px}
+.pip{width:7px;height:7px;background:var(--red);border-radius:50%;display:inline-block;box-shadow:0 0 10px var(--red);margin-right:7px}
+.mapvisual{flex:1;min-height:95px;border-radius:14px;overflow:hidden;position:relative;background:radial-gradient(ellipse at 48% 45%,#232830 0%,#12151a 60%,#0c0e11 100%);border:1px solid #252932}
+.mapvisual:before,.mapvisual:after{content:"";position:absolute;background:#353b45;opacity:.8;transform:rotate(-23deg);width:150%;height:9px;left:-20%;top:45%;border:1px solid #4a505b}
+.mapvisual:after{transform:rotate(29deg);top:56%;height:6px;background:#262d36}
+.road{position:absolute;background:#555c68;width:8px;height:150%;left:57%;top:-20%;transform:rotate(48deg);opacity:.55}
+.mapdot{position:absolute;left:50%;top:47%;width:15px;height:15px;background:var(--red);border:4px solid #ffdfe0;border-radius:50%;box-shadow:0 0 0 9px #ff343b20,0 0 20px #ff343b99}
+.maplabel{position:absolute;left:13px;bottom:12px;font-size:10px;letter-spacing:.12em;color:#c3c8d1}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+button{font:inherit;cursor:pointer;color:var(--white);border:1px solid #393c44;background:#202329;border-radius:12px;min-height:45px;padding:10px 12px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:12px;letter-spacing:.04em}
+button.primary{background:linear-gradient(135deg,#e92330,#9f0d18);border-color:#ff4a50;box-shadow:0 5px 18px #ff343b20}
+button:active{transform:scale(.985)}
+.vehicle{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:120px;border-radius:15px;background:radial-gradient(ellipse at center,#21171b,#0d0f12 70%);border:1px solid #34242a;position:relative}
+.caricon{font-size:clamp(48px,7vw,88px);line-height:1;color:#f4f4f5;filter:drop-shadow(0 0 14px #ff343b22)}
+.vehicle-title{font-size:11px;letter-spacing:.2em;margin-top:12px}
+.status{font-size:10px;color:#ff6c72;letter-spacing:.15em;margin-top:7px}
+.gauges{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+.gauge{background:#0d0f12;border:1px solid #282b31;border-radius:11px;padding:10px}
+.gauge span{display:block;color:var(--muted);font-size:9px;letter-spacing:.13em}.gauge b{display:block;font-size:17px;margin-top:6px;font-weight:650}.gauge small{font-size:10px;color:var(--muted);font-weight:400}
+.music{grid-column:1 / -1;display:flex;flex-direction:row;align-items:center;gap:15px;padding:clamp(13px,2vw,20px)}
+.album{height:52px;width:52px;flex:0 0 52px;border-radius:13px;background:linear-gradient(135deg,#3a1016,#121316);display:grid;place-items:center;border:1px solid #54232b;color:var(--red);font-size:23px}
+.musictext{flex:1;min-width:0}.musictext strong{display:block;font-size:14px}.musictext span{display:block;color:var(--muted);font-size:10px;margin-top:5px;letter-spacing:.1em}
+.music button{min-width:125px}
+footer{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#777d87;font-size:9px;letter-spacing:.12em}
+.footerleft{display:flex;align-items:center;gap:7px}.live{color:#ff646a}
+@media (orientation:portrait){.app{overflow:auto;height:100dvh}.app{gap:10px}main{grid-template-columns:1fr;grid-template-rows:minmax(210px,1fr) minmax(220px,1fr) auto}.music{grid-column:1;flex-wrap:wrap}.music button{flex:1}.mapvisual{min-height:125px}.vehicle{min-height:135px}footer{padding-bottom:4px}}
+@media (max-height:520px) and (orientation:landscape){.app{padding:10px 18px;gap:7px}header{min-height:43px}.mark{width:34px;height:34px}.card{padding:11px;border-radius:15px}.cardhead{margin-bottom:7px}.actions{margin-top:7px}.vehicle{min-height:90px}.gauges{margin-top:6px}.gauge{padding:6px}.gauge b{margin-top:3px}.music{padding:9px}.album{height:38px;width:38px;flex-basis:38px}button{min-height:37px}footer{font-size:8px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="mark">F</div><div><h1>FORTE GT</h1><div class="sub">GT-LINE / DRIVER INTERFACE</div></div></div>
+  <div class="clock"><div class="time" id="time">--:--</div><div class="date" id="date">LOADING DATE</div></div>
+</header>
+<div class="rule"></div>
+<main>
+  <section class="card">
+    <div class="cardhead"><span><i class="pip"></i>NAVIGATION</span><span>01</span></div>
+    <div class="mapvisual" aria-label="Decorative map placeholder"><div class="road"></div><div class="mapdot"></div><div class="maplabel">READY FOR ROUTE</div></div>
+    <div class="actions">
+      <button class="primary" id="maps">↗ OPEN MAPS</button>
+      <button id="google">⌖ GOOGLE MAPS</button>
+    </div>
+  </section>
+  <section class="card">
+    <div class="cardhead"><span><i class="pip"></i>VEHICLE SYSTEMS</span><span>02</span></div>
+    <div class="vehicle"><div class="caricon">⌁</div><div class="vehicle-title">KIA FORTE GT-LINE</div><div class="status">OBD ADAPTER NOT CONNECTED</div></div>
+    <div class="gauges">
+      <div class="gauge"><span>ENGINE RPM</span><b>— <small>rpm</small></b></div>
+      <div class="gauge"><span>COOLANT TEMP</span><b>— <small>°F</small></b></div>
+    </div>
+    <div class="actions"><button class="primary" id="scanner">↗ OPEN CAR SCANNER</button><button id="info">VEHICLE INFO</button></div>
+  </section>
+  <section class="card music">
+    <div class="album">♫</div>
+    <div class="musictext"><strong>APPLE MUSIC</strong><span>YOUR SOUNDTRACK · READY WHEN YOU ARE</span></div>
+    <button class="primary" id="music">▶ OPEN MUSIC</button>
+  </section>
+</main>
+<footer><div class="footerleft"><i class="pip"></i><span class="live">SYSTEM READY</span><span>· LOCAL DASHBOARD</span></div><span>DRIVE FOCUSED. ARRIVE SAFE.</span></footer>
+</div>
+<script>
+const timeEl=document.getElementById('time'),dateEl=document.getElementById('date');
+function tick(){const n=new Date();timeEl.textContent=n.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});dateEl.textContent=n.toLocaleDateString([], {weekday:'short',month:'short',day:'numeric'}).toUpperCase();}
+tick();setInterval(tick,1000);
+function openUrl(url){window.location.href=url}
+document.getElementById('maps').onclick=()=>openUrl('https://maps.apple.com/');
+document.getElementById('google').onclick=()=>openUrl('https://maps.google.com/');
+document.getElementById('music').onclick=()=>openUrl('music://');
+document.getElementById('scanner').onclick=()=>openUrl('https://apps.apple.com/us/app/car-scanner-elm-obd2/id1259933623');
+document.getElementById('info').onclick=()=>alert('Live RPM and coolant temperature require a compatible OBD-II adapter and a supported Car Scanner connection. This dashboard is a launcher, not a vehicle control system.');
+</script>
+</body>
+</html>
